@@ -1,0 +1,7 @@
+.footer {
+    font-size: 1em;
+    padding-bottom: 2rem;
+    display: grid;
+    justify-items: center;
+    justify-content: center;
+}

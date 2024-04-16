@@ -35,7 +35,7 @@ jobs:
       uses: GlueOps/github-actions-build-push-containers@v0.3.7
       with:
         registry: ${{ vars.CONTAINER_REGISTRY }}
-        image_name: frontend-service
+        image_name: cicd-example-frontend-service
         # Comma-separate list of tags for built image.  Defaults to GlueOps tags
         tags: 0.0.0
         # AWS Access Key ID - to be used in conjunction with `aws_secret_access_key`

@@ -3,10 +3,11 @@ import styles from "./page.module.css";
 import { useState, useEffect } from 'react';
 
 export default function Page() {
-     const URL = process.env.NEXT_PUBLIC_BACKEND_URL.concat('/students');
      const [students, setStudents] = useState([]);
 
      useEffect(() => {
+        const URL = process.env.NEXT_PUBLIC_BACKEND_URL.concat('/students');
+        
         fetch(URL)
           .then((res) => {
             return res.json();

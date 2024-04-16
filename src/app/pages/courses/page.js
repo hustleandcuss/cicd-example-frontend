@@ -4,10 +4,11 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 export default function Page() {
-     const URL = process.env.NEXT_PUBLIC_BACKEND_URL.concat('/courses');
      const [courses, setCourses] = useState([]);
 
      useEffect(() => {
+        const URL = process.env.NEXT_PUBLIC_BACKEND_URL.concat('/courses');
+
         fetch(URL)
           .then((res) => {
             return res.json();

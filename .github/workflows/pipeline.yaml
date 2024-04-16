@@ -43,7 +43,7 @@ jobs:
         # AWS IAM Role to assume, when using the GitHub OIDC provider in conjunction with a configured AWS IAM Identity Provider endpoint and instead of access key / secret key pair
         aws_role_to_assume: ${{ secrets.ROLE }}
         # AWS Default Region
-        aws_default_region: eu-north
+        aws_default_region: eu-north-1
         # Version of AWS CLI to use, default is 2.15.30
         aws_cli_version: 2.15.30
           

@@ -11,7 +11,7 @@ jobs:
     environment: test
     steps:
     - name: Git checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Setup Node.js environment
       uses: actions/setup-node@v4.0.2
       with:
@@ -27,8 +27,6 @@ jobs:
     environment: test
     needs: test
     steps:
-    - name: Git checkout
-      uses: actions/checkout@v3
     - name: Build Docker Image and Push to GHCR, Docker Hub, or AWS ECR
       # You may pin to the exact commit or the version.
       # uses: GlueOps/github-actions-build-push-containers@c095833c92eaaea5427d1dbc3e83845abeb5f66c

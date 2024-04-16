@@ -32,7 +32,7 @@ jobs:
       # uses: GlueOps/github-actions-build-push-containers@c095833c92eaaea5427d1dbc3e83845abeb5f66c
       uses: GlueOps/github-actions-build-push-containers@v0.3.7
       with:
-        registry: ${{ env.REGISTRY }}
+        registry: ${{ vars.REGISTRY }}
         image_name: frontend-service
         # Comma-separate list of tags for built image.  Defaults to GlueOps tags
         tags: 0.0.0
@@ -43,7 +43,7 @@ jobs:
 #        # AWS IAM Role to assume, when using the GitHub OIDC provider in conjunction with a configured AWS IAM Identity Provider endpoint and instead of access key / secret key pair
 #        aws_role_to_assume: ${{ secrets.ROLE }}
         # AWS Default Region
-        aws_default_region: ${{ env.AWS_REGION }}
+        aws_default_region: ${{ vars.AWS_REGION }}
 #        # Version of AWS CLI to use, default is 2.15.30
 #        aws_cli_version: 2.15.30
           

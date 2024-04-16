@@ -20,6 +20,10 @@ jobs:
       run: |
         npm install
         npm run lint
+    - name: TEST ENVS
+      run:
+        - echo ${{ vars.REGISTRY }}
+        - echo ${{ secrets.ACCESS_KEY_ID }}
   build:
     name: Build
     runs-on: ubuntu-latest

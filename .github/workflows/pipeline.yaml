@@ -8,6 +8,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    environment: frontend-service
     steps:
     - name: Git checkout
       uses: actions/checkout@v3

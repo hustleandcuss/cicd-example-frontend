@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.get-version.outputs.version }}
-    environment: test
+    environment: production
     steps:
     - name: Git checkout
       uses: actions/checkout@v4
@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.get-version.outputs.version }}
-    environment: test
+    environment: production
     needs: test
     steps:
     - name: Git checkout
@@ -52,7 +52,7 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    environment: test
+    environment: production
     needs:
       - test
       - get-version
@@ -77,7 +77,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    environment: test
+    environment: production
     needs:
       - build
     steps:

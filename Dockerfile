@@ -1,4 +1,4 @@
-FROM node:20.11.1-alpine
+FROM node:20-alpine
 
 COPY ./package.json ./package.json
 COPY ./package-lock.json ./package-lock.json
@@ -13,4 +13,6 @@ RUN npm run build
 
 EXPOSE 3000
 
-CMD npm run start
+USER node
+
+CMD ['npm', 'run', 'start]

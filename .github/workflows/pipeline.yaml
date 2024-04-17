@@ -40,7 +40,15 @@ jobs:
     - name: Get project version
       id: get-version
       run: |
-        echo "version=$(npm pkg get version | xargs)" >> "$GITHUB_OUTPUT"
+        response="$(npm pkg get version | xargs)"
+        
+        if [[ $? -eq 0 ]]; then
+          echo "version=$response" >> "$GITHUB_OUTPUT"
+          echo "$response"
+        else
+          echo "Error: $response"
+          exit 1
+        fi
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -66,4 +74,25 @@ jobs:
 #        aws_role_to_assume: ${{ secrets.ROLE }}
         # AWS Default Region
         aws_default_region: ${{ vars.AWS_REGION }}
-          
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: test
+    needs:
+      - build
+    steps:
+      - name: Deploy image to AWS App Runner
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ vars.AWS_REGION }}
+        run: |
+          echo "Implement Deploy!"
+#          response="$(aws apprunner update-service --service-arn <value> --source-configuration <value>)"
+#
+#          if [[ $? -eq 0 ]]; then
+#            echo "Successfully deployed service"
+#          else
+#            echo "Error: $response"
+#            exit 1
+#          fi

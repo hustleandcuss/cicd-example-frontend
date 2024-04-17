@@ -23,6 +23,14 @@ jobs:
       run: |
         npm install
         npm run lint
+  get-version:
+    name: Get Project Version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+    environment: test
+    needs: test
+    steps:
     - name: Get project version
       id: get-version
       run: |
@@ -30,12 +38,12 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    environment: test get-version
-    needs: test
+    environment: test
+    needs: test get-version
     steps:
     - name: Build Docker Image and Push to GHCR, Docker Hub, or AWS ECR
       env:
-        VERSION: ${{ needs.test.outputs.version }}
+        VERSION: ${{ needs.get-version.outputs.version }}
       uses: GlueOps/github-actions-build-push-containers@v0.3.7
       with:
         registry: ${{ vars.CONTAINER_REGISTRY }}

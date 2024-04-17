@@ -4,6 +4,8 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+env:
+  IMAGE_NAME: cicd-example-frontend-service
 jobs:
   test:
     name: Test
@@ -63,7 +65,7 @@ jobs:
       uses: GlueOps/github-actions-build-push-containers@v0.3.7
       with:
         registry: ${{ vars.CONTAINER_REGISTRY }}
-        image_name: cicd-example-frontend-service
+        image_name: $IMAGE_NAME
         # Comma-separate list of tags for built image.  Defaults to GlueOps tags
         tags: $VERSION
         # AWS Access Key ID - to be used in conjunction with `aws_secret_access_key`
@@ -80,19 +82,27 @@ jobs:
     environment: production
     needs:
       - build
+      - get-version
     steps:
       - name: Deploy image to AWS App Runner
         env:
+          VERSION: ${{ needs.get-version.outputs.version }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ vars.AWS_REGION }}
+          CONTAINER_REGISTRY: ${{ vars.CONTAINER_REGISTRY }}
+          APP_RUNNER_SERVICE_ARN: arn:aws:apprunner:eu-west-1:134420766836:service/frontend-service/d5dad2cd8567420fb609ca84b047ef85
         run: |
-          echo "Implement Deploy!"
-#          response="$(aws apprunner update-service --service-arn <value> --source-configuration <value>)"
-#
-#          if [[ $? -eq 0 ]]; then
-#            echo "Successfully deployed service"
-#          else
-#            echo "Error: $response"
-#            exit 1
-#          fi
+          echo "Starting deploy"
+          
+          response="$(aws apprunner update-service \
+            --region eu-west-1 \
+            --service-arn $APP_RUNNER_SERVICE_ARN \
+            --source-configuration '{"ImageRepository":{"ImageIdentifier":"$CONTAINER_REGISTRY/$IMAGE_NAME:$VERSION","ImageRepositoryType":"ECR"}}')"
+          
+          if [[ $? -eq 0 ]]; then
+            echo "Successfully deployed service"
+          else
+            echo "Error: $response"
+            exit 1
+          fi

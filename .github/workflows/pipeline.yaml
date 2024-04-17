@@ -1,11 +1,10 @@
 name: Frontend Pipeline
+
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-env:
-  IMAGE_NAME: cicd-example-frontend-service
 jobs:
   test:
     name: Test
@@ -65,7 +64,7 @@ jobs:
       uses: GlueOps/github-actions-build-push-containers@v0.3.7
       with:
         registry: ${{ vars.CONTAINER_REGISTRY }}
-        image_name: $IMAGE_NAME
+        image_name: cicd-example-frontend-service
         # Comma-separate list of tags for built image.  Defaults to GlueOps tags
         tags: $VERSION
         # AWS Access Key ID - to be used in conjunction with `aws_secret_access_key`
@@ -92,6 +91,7 @@ jobs:
           AWS_DEFAULT_REGION: ${{ vars.AWS_REGION }}
           CONTAINER_REGISTRY: ${{ vars.CONTAINER_REGISTRY }}
           APP_RUNNER_SERVICE_ARN: arn:aws:apprunner:eu-west-1:134420766836:service/frontend-service/d5dad2cd8567420fb609ca84b047ef85
+          IMAGE_NAME: cicd-example-frontend-service
         run: |
           echo "Starting deploy"
           

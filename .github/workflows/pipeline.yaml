@@ -8,6 +8,8 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
     environment: test
     steps:
     - name: Git checkout
@@ -21,21 +23,25 @@ jobs:
       run: |
         npm install
         npm run lint
+    - name: Get project version
+      id: get-version
+      run: |
+        echo "version=$(npm pkg get version | xargs)" >> "$GITHUB_OUTPUT"
   build:
     name: Build
     runs-on: ubuntu-latest
-    environment: test
+    environment: test get-version
     needs: test
     steps:
     - name: Build Docker Image and Push to GHCR, Docker Hub, or AWS ECR
-      # You may pin to the exact commit or the version.
-      # uses: GlueOps/github-actions-build-push-containers@c095833c92eaaea5427d1dbc3e83845abeb5f66c
+      env:
+        VERSION: ${{ needs.test.outputs.version }}
       uses: GlueOps/github-actions-build-push-containers@v0.3.7
       with:
         registry: ${{ vars.CONTAINER_REGISTRY }}
         image_name: cicd-example-frontend-service
         # Comma-separate list of tags for built image.  Defaults to GlueOps tags
-        tags: 0.0.0
+        tags: $VERSION
         # AWS Access Key ID - to be used in conjunction with `aws_secret_access_key`
         aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         # AWS Secret Access Key - to be used in conjunction with `aws_access_key_id`
@@ -44,6 +50,4 @@ jobs:
 #        aws_role_to_assume: ${{ secrets.ROLE }}
         # AWS Default Region
         aws_default_region: ${{ vars.AWS_REGION }}
-#        # Version of AWS CLI to use, default is 2.15.30
-#        aws_cli_version: 2.15.30
           

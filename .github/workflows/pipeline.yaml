@@ -98,7 +98,7 @@ jobs:
           response="$(aws apprunner update-service \
             --region eu-west-1 \
             --service-arn $APP_RUNNER_SERVICE_ARN \
-            --source-configuration '{"ImageRepository":{"ImageIdentifier":"$CONTAINER_REGISTRY/$IMAGE_NAME:$VERSION","ImageRepositoryType":"ECR"}}')"
+            --source-configuration '{"ImageRepository":{"ImageIdentifier":"'${CONTAINER_REGISTRY}'/'${IMAGE_NAME}':'${VERSION}'","ImageRepositoryType":"ECR"}}')"
           
           if [[ $? -eq 0 ]]; then
             echo "Successfully deployed service"

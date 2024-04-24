@@ -16,6 +16,8 @@ COPY . .
 
 RUN npm run lint
 
+RUN npm run test
+
 RUN npm run build
 
 ####################

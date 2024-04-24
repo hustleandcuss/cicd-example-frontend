@@ -20,7 +20,7 @@ export default function Menu() {
                         src={"/logo.png"}
                         width={100}
                         height={100}
-                        alt="School icon from internetz"
+                        alt="School logo from internetz"
                     />
                 </Link>
             </nav>

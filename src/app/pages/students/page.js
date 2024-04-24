@@ -13,7 +13,6 @@ export default function Page() {
             return res.json();
           })
           .then((data) => {
-            console.log(data);
             setStudents(data);
           });
      }, []);

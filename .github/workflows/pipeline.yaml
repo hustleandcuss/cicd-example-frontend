@@ -6,6 +6,24 @@ on:
   pull_request:
     branches: [ "main" ]
 jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+    environment: production
+    steps:
+    - name: Git checkout
+      uses: actions/checkout@v4
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v4.0.2
+      with:
+        node-version: '20.x'
+    - name: npm install, lint and test
+      id: test
+      run: |
+        npm install
+        npm run lint
   test:
     name: Test
     runs-on: ubuntu-latest
@@ -23,7 +41,7 @@ jobs:
       id: test
       run: |
         npm install
-        npm run lint
+        npm run test
   get-version:
     name: Get Project Version
     runs-on: ubuntu-latest
@@ -90,7 +108,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ vars.AWS_REGION }}
           CONTAINER_REGISTRY: ${{ vars.CONTAINER_REGISTRY }}
-          APP_RUNNER_SERVICE_ARN: arn:aws:apprunner:eu-west-1:134420766836:service/frontend-service/d5dad2cd8567420fb609ca84b047ef85
+          APP_RUNNER_SERVICE_ARN: ${{ vars.AWS_APP_RUNNER_SERVICE_ARN }}
           IMAGE_NAME: cicd-example-frontend-service
         run: |
           echo "Starting deploy"

@@ -8,7 +8,7 @@ export default function Page() {
             <div className={styles.container}>
                 <article className={styles.article}>
                     <div className={styles.card}>
-                        <Image width={"100"} height={"100"} src={"/logo.png"} alt={"School logo from intrenetz"}/>
+                        <Image width={"100"} height={"100"} src={"/logo.png"} alt={"School logo from internetz"}/>
                         <ul className={styles.contact_info}>
                             <li>Student Service Desk</li>
                             <li>+4611111111</li>

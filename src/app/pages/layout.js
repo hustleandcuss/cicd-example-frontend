@@ -1,5 +1,5 @@
-import Menu from "../components/menu/menu";
-import Footer from "../components/footer/footer";
+import Menu from "../../components/menu/menu";
+import Footer from "../../components/footer/footer";
 
 export default function Layout({ children }) {
   return (

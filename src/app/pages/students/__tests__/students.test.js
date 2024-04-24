@@ -63,8 +63,8 @@ describe('Students Page', () => {
         //ASSERT
         expect(listItems).toHaveLength(2);
 
-        expect(listItems[0].textContent).toContain('Student id: 666');
-        expect(listItems[1].textContent).toContain('Student id: 999');
+        expect(listItems[0]).toHaveTextContent('Student id: 666');
+        expect(listItems[1]).toHaveTextContent('Student id: 999');
 
         expect(fetch).toHaveBeenCalledTimes(1);
     })
